@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+
+  ul
+  each val in doctor_list
+    li 
+      a(href=val.url) #{val.name}  
+      | (#[strong Expertise:] #{val.expertise}) - 
+      | (#[strong Gender:] #{val.gender}) - 
+      | (#[strong Birthdate:] #{val.date_of_birth_formatted})
+      
+  else
+    li There are no doctor in this hospital

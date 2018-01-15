@@ -1,0 +1,32 @@
+extends layout
+
+block content
+
+  h1 ID: #{doctor._id}
+  
+  p #[strong Name:] #{doctor.name}
+  p #[strong Gender:] #{doctor.gender}
+  p #[strong Birthdate:] #{doctor.date_of_birth_formatted}
+     
+  p #[strong Expertise:] #{doctor.expertise} 
+
+  if surgeries.length
+    div(style='margin-left:20px;margin-top:20px')
+      h4 Surgeries
+      each surgery in surgeries
+        hr
+        p #[strong Id:] 
+          a(href=surgery.url) #{surgery._id}
+        p #[strong Surgery Title:] #{surgery.title}
+
+        if surgery.status
+          span.text-success Active
+        else
+          span.text-danger Inactive
+                    
+
+  hr
+  p
+    a(href=doctor.url+'/delete') Delete Doctor
+  p
+    a(href=doctor.url+'/update') Update Doctor

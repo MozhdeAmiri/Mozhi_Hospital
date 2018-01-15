@@ -1,0 +1,51 @@
+extends layout
+
+block content
+
+  h1= title
+  p #[strong Name:] #{doctor.name}
+  p #[strong Expertise:] #{doctor.expertise} 
+
+    if surgeries.length
+
+      p #[strong Delete the following surgeries before attempting to delete this Doctor.]
+      
+        div(style='margin-left:20px;margin-top:20px')
+          h4 Surgeries
+          each surgery in surgeries
+            hr
+            p #[strong Surgery Title:] #{surgery.title}
+
+            if surgery.status
+              span.text-success Active
+            else
+              span.text-danger Inactive
+            
+            p #[strong Date:] #{surgery.date_formatted}
+
+            p #[strong Summary:] #{surgery.summary}
+            p #[strong Doctor(s): ( ] 
+              each val in surgery.doctor
+                a(href=val.url) #{val.name}
+                |,
+              | )
+
+            p #[strong Id:] 
+              a(href=surgery.url) #{surgery._id}
+
+    else
+      p #[strong Do you really want to delete this Doctor?]
+    
+      div(style="margin-left:20px")
+
+        p #[strong ID]: #{doctor._id}
+              
+        p #[strong Gender:] #{doctor.gender}
+        p #[strong Birthdate:] #{doctor.date_of_birth_formatted}
+        p #[strong Expertise:] #{doctor.expertise}
+        
+      form(method='POST' action='')
+        div.form-group
+          input#id.form-control(type='hidden',name='id', required='true', value=doctor._id )
+
+        button.btn.btn-primary(type='submit') Delete

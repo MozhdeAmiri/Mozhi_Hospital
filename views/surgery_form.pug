@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text', placeholder='Name of surgery' name='title' required='true' value=(undefined===surgery ? '' : surgery.title) )
+      label(for='status') Status:
+       input#status( type="checkbox" name="status" checked=(surgery && surgery.status) ) 
+    
+    div.form-group
+      label(for='patient') Patient:
+      select#patient.form-control(type='select', placeholder='Select patient' name='patient' required='true' )
+        for patient in patients
+          if surgery
+            option(value=patient._id selected=(patient._id.toString()==surgery.patient._id.toString() ? 'selected' : false) ) #{patient.name}
+          else
+            option(value=patient._id) #{patient.name}
+    div.form-group
+      label(for='doctor') Available Doctors:
+        div(style='display: inline; padding-right:5px;')
+          select#doctor.form-control(type='select' multiple, placeholder='Select doctor(s)' name='doctor' required='true' )
+            for doctor in doctors
+              if surgery
+                option(value=doctor._id selected=(doctor.selected ? 'selected' : false) ) #{doctor.name}
+              else
+                option(value=doctor._id) #{doctor.name}
+    div.form-group
+      label(for='date') Date:
+      input#date.form-control(type='date', placeholder='date' name='date' value=(undefined===surgery ? '' : surgery.date_formatted) required='true') 
+    
+    div.form-group
+      label(for='summary') Summary:
+      input#summary.form-control(type='textarea', placeholder='Summary' name='summary' value=(undefined===surgery ? '' : surgery.summary) required='true')
+    
+              
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

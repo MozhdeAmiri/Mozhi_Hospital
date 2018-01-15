@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+  h1 Patient: #{patient.name}
+  p #[strong Lifespan:] #{patient.lifespan}
+  p #[strong Diagnosis:] #{patient.diagnosis}
+  p #[strong Treatment:] #{patient.treatment}
+  
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Scheduled Surgeries:
+    
+    dl
+    each surgery in patient_surgeries
+      dt 
+        a(href=surgery.url) #{surgery.title}
+      dd #{surgery.summary}
+
+    else
+      p This patient has no scheduled surgeries.
+      
+  hr
+  p
+    a(href=patient.url+'/delete') Delete patient
+  p
+    a(href=patient.url+'/update') Update patient

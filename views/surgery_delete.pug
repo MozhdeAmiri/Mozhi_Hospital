@@ -1,0 +1,24 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{surgery.title}
+  
+  p #[strong Patient:] 
+    a(href=surgery.patient.url) #{surgery.patient.name}
+  p #[strong Doctor:] 
+    each val in surgery.doctor
+      a(href=val.url) #{val.name}
+      |, 
+  p #[strong Summary:] #{surgery.summary}
+  p #[strong Date:] #{surgery.date_formatted}
+  
+
+  hr
+  p #[strongDo you really want to delete this Surgery?]
+  
+  form(method='POST' action='')
+    div.form-group
+      input#id.form-control(type='hidden',name='id', required='true', value=surgery._id )
+
+    button.btn.btn-primary(type='submit') Delete

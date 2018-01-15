@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='first_name') First Name:
+      input#first_name.form-control(type='text', placeholder='First name (Christian) last' name='first_name' required='true' value=(undefined===doctor ? '' : doctor.first_name) )
+      label(for='family_name') Family Name:
+      input#family_name.form-control(type='text', placeholder='Family name (surname)' name='family_name' required='true' value=(undefined===doctor ? '' : doctor.family_name))
+      
+      label(for='gender') Gender:
+      select#gender.form-control(type='select', placeholder='Select gender' name='gender' required='true' )
+        - let genderList= ['Male', 'Female']
+        each variable in genderList
+          option(value=variable, selected=( (undefined!=doctor && variable==doctor.gender) ? 'selected' : false) ) #{variable}
+        
+    div.form-group
+      label(for='extraInfo') Extra Info:
+      input#extraInfo.form-control(type='text', placeholder='Publisher and date information' name='extraInfo' value=(undefined===doctor ? '' : doctor.extraInfo) )
+    div.form-group
+      label(for='date_of_birth') Date of birth:
+      input#date_of_birth.form-control(type='date', name='date_of_birth' value=(undefined===doctor ? '' : doctor.date_of_birth_yyyy_mm_dd))
+    
+        
+    div.form-group
+      label(for='expertise') Expertise:
+      select#expertise.form-control(type='select',name='expertise' required)
+        - let list= ['Addiction psychiatrist','Adolescent medicine specialist','Allergist (immunologist)',      'Anesthesiologist',      'Cardiac electrophysiologist',      'Cardiologist',      'Cardiovascular surgeon',      'Colon and rectal surgeon',      'Critical care medicine specialist',      'Dermatologist',      'Developmental pediatrician',      'Emergency medicine specialist',      'Endocrinologist',      'Family medicine physician',      'Forensic pathologist',      'Gastroenterologist',      'Geriatric medicine specialist',      'Gynecologist',      'Gynecologic oncologist',      'Hand surgeon',      'Hematologist',      'Hepatologist',      'Hospitalist',      'Hospice and palliative medicine specialist',      'Hyperbaric physician',      'Infectious disease specialist',      'Internist',      'Interventional cardiologist',      'Medical examiner',      'Medical geneticist',      'Neonatologist',      'Nephrologist',      'Neurological surgeon',      'Neurologist',      'Nuclear medicine specialist',      'Obstetrician',      'Occupational medicine specialist',      'Oncologist',      'Ophthalmologist',      'Oral surgeon (maxillofacial surgeon)',      'Orthopedic surgeon',      'Otolaryngologist (ear, nose, and throat specialist)',      'Pain management specialist',      'Pathologist',      'Pediatrician',      'Perinatologist',      'Physiatrist',      'Plastic surgeon',      'Psychiatrist',      'Pulmonologist',      'Radiation oncologist',      'Radiologist',      'Reproductive endocrinologist',      'Rheumatologist',      'Sleep disorders specialist',      'Spinal cord injury specialist',      'Sports medicine specialist',      'Surgeon',      'Thoracic surgeon',      'Urologist',      'Vascular surgeon']
+        
+        each variable in list
+          option(value=variable, selected=( (undefined!=doctor && variable==doctor.expertise) ? 'selected' : false) ) #{variable}
+          
+        
+    button.btn.btn-primary(type='submit') Submit
+
+  if errors 
+    ul
+      for error in errors
+        li!= error.msg

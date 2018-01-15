@@ -1,0 +1,29 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{patient.name}
+  p= patient.lifespan
+  
+  if patient_surgeries.length
+  
+    p #[strong Delete the following surgeries before attempting to delete this patient.]
+  
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Surgeries
+    
+      dl
+      each surgery in patient_surgeries
+        dt 
+          a(href=surgery.url) #{surgery.title}
+        dd #{surgery.summary}
+
+  else
+    p Do you really want to delete this Patient?
+    
+    form(method='POST' action='')
+      div.form-group
+        input#patientid.form-control(type='hidden',name='patientid', required='true', value=patient._id )
+
+      button.btn.btn-primary(type='submit') Delete

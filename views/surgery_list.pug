@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  
+  ul
+  each surgery in surgery_list
+    li
+      |Title:  
+      a(href=surgery.url) #{surgery.title} 
+      p
+      | (Patient: 
+      a(href=surgery.patient.url) #{surgery.patient.name}
+      | )
+      | (Doctor(s): 
+      each val in surgery.doctor
+        a(href=val.url) #{val.name}
+        |,
+      | )
+      | Status: 
+      if surgery.status
+        span.text-success Active
+      else
+        span.text-danger Inactive
+    hr
+
+  else
+    li There are no surgeries.
