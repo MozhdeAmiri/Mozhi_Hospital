@@ -526,7 +526,7 @@ exports.surgery_update_post = [
           // Successful
           if (list.length > 0) {
             console.log(`LLLLLIIIIIIIIIIIIIIIIIIIIISSSSSSSSSSSSSSSSSSSSSSTTTTTTTTTTTTTTTTT${list}`);
-            myErr = `This doctor has avtive surgery on ${req.body.date}`;
+            myErr = `This doctor has active surgery on ${req.body.date}`;
             console.log(myErr);
           }
           myChecks(req, res, next, myErr);
