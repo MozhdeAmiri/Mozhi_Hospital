@@ -373,6 +373,7 @@ exports.surgery_update_get = (req, res, next) => {
   // Get surgery, patients and doctors for form.
   async.parallel({
     surgery(callback) {
+      
       Surgery.findById(req.params.id).populate('patient').populate('doctor').exec(callback);
     },
     patients(callback) {
@@ -500,6 +501,18 @@ exports.surgery_update_post = [
   (req, res, next) => {
     // Extract the validation errors from a request.
     let myErr = '';
+    let filterDate = req.body.date;
+    let startDate;
+    let endDate;
+
+    if (undefined === filterDate || filterDate === '' || filterDate === null) {
+      startDate = new Date('1000/1/1');
+      endDate = new Date('9999/1/1');
+    } else {
+      startDate = moment(filterDate).startOf('day');
+      endDate = moment(startDate).add(1, 'days');
+    }
+
     console.log(req.params.id);
 
     if (!(req.body.doctor instanceof Array)) {
@@ -515,11 +528,11 @@ exports.surgery_update_post = [
     } else {
       console.log('|||||||||||||||||||  REQ.BODY.STATUS ');
       console.log(`|||||||||||||||||||  req.body.doctor :  ${req.body.doctor}`);
-
+      
       Surgery.find().and([
         // _id: { $ne: req.params.id },
         { status: true },
-        //  { date: req.body.date },
+        { date: { $gte: startDate, $lt: endDate } },
         { doctor: { $in: req.body.doctor } },
       ]).populate('patient')
         .exec((err, list) => {
