@@ -1,6 +1,7 @@
 const Surgery = require('../models/surgery');
 const Patient = require('../models/patient');
 const Doctor = require('../models/doctor');
+const moment = require('moment');
 
 const {
   body,
@@ -71,12 +72,23 @@ exports.surgery_list_post = [
   (req, res, next) => {
     let filteredDoctor = [];
     let filterDate = req.body.date;
-    let statusFilter = false;
+    let startDate;
+    let endDate;
 
-    if (req.body.status == 'on') {
+    let statusFilter = false;
+    if (undefined === filterDate || filterDate === '' || filterDate === null) {
+      startDate = new Date('1000/1/1');
+      endDate = new Date('9999/1/1');
+    } else {
+      startDate = moment(filterDate).startOf('day');
+      endDate = moment(startDate).add(1, 'days');
+    }
+    if (req.body.status === 'on') {
       statusFilter = true;
     }
+    console.log(`startDate--------${startDate}`);
     console.log(`filterDate--------${filterDate}`);
+    console.log(`endDate--------${endDate}`);
 
     if (!(req.body.doctor instanceof Array)) {
       if (typeof req.body.doctor === 'undefined') {
@@ -94,14 +106,16 @@ exports.surgery_list_post = [
             });
             Surgery.find().and([
               { status: statusFilter },
-              //  date: filterDate,
-              { doctor: { $in: filteredDoctor }},
-            ]).populate('patient').populate('doctor').exec(callback);
+              { date: { $gte: startDate, $lt: endDate } },
+              { doctor: { $in: filteredDoctor } },
+            ]).populate('patient').populate('doctor')
+              .exec(callback);
           } else {
-            Surgery.find({
-              status: statusFilter,
-            //  date: filterDate,
-            }).populate('patient').populate('doctor').exec(callback);
+            Surgery.find().and([
+              { status: statusFilter },
+              { date: { $gte: startDate, $lt: endDate } },
+            ]).populate('patient').populate('doctor')
+              .exec(callback);
           }
         } else {
           Surgery.find({}).populate('patient').populate('doctor').exec(callback);
@@ -320,19 +334,6 @@ exports.surgery_create_post = [
 // Display surgery delete form on GET.
 exports.surgery_delete_get = (req, res, next) => {
   console.log(`===============surgery_delete_get   ${req.params.id}`);
-  async.parallel({
-    surgery(callback) {
-      Surgery.findById(req.params.id).populate('patient').populate('doctor').exec(callback);
-    },
-  }, (err, results) => {
-    if (err) { return next(err); }
-    if (results.surgery == null) { // No results.
-      res.redirect('/catalog/surgeries');
-    }
-    // Successful, so render.
-    res.render('surgery_delete', { title: 'Delete Surgery', surgery: results.surgery });
-  });
-
   Surgery.findById(req.params.id)
     .populate('patient')
     .populate('doctor')
@@ -355,13 +356,15 @@ exports.surgery_delete_get = (req, res, next) => {
 exports.surgery_delete_post = (req, res, next) => {
   console.log(`-----------------surgery_delete_post   ${req.params.id}`);
 
-  // Assume valid Doctor id in field.
-  Doctor.findByIdAndRemove(req.body.id, (err) => {
-    if (err) {
-      return next(err);
-    }
-    // Success, so redirect to list of Doctor items.
-    res.redirect('/catalog/surgeries');
+  Surgery.findById(req.body.surgery).exec((err, surgery) => {
+    if (err) { return next(err); }
+    // Success
+    // Surgery has no deependencies. Delete object and redirect to the list of bookinstances.
+    Surgery.findByIdAndRemove(req.body.id, (err) => {
+      if (err) { return next(err); }
+      // Success - go to surgeries list
+      res.redirect('/catalog/surgeries');
+    });
   });
 };
 
@@ -516,7 +519,7 @@ exports.surgery_update_post = [
       Surgery.find().and([
         // _id: { $ne: req.params.id },
         { status: true },
-      //  { date: req.body.date },
+        //  { date: req.body.date },
         { doctor: { $in: req.body.doctor } },
       ]).populate('patient')
         .exec((err, list) => {
