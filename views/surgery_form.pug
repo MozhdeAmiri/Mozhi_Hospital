@@ -2,7 +2,12 @@ extends layout
 
 block content
   h1= title
-
+  
+  if errors 
+    ul
+      for error in errors
+        li #{error.msg}
+  
   form(method='POST' action='')
     div.form-group
       label(for='title') Title:
@@ -15,7 +20,7 @@ block content
       select#patient.form-control(type='select', placeholder='Select patient' name='patient' required='true' )
         for patient in patients
           if surgery
-            option(value=patient._id selected=(patient._id.toString()==surgery.patient._id.toString() ? 'selected' : false) ) #{patient.name}
+            option(value=patient._id selected=((patient._id!= undefined && surgery.patient._id!= undefined && patient._id.toString()==surgery.patient._id.toString())? 'selected' : false) ) #{patient.name}
           else
             option(value=patient._id) #{patient.name}
     div.form-group
@@ -38,7 +43,4 @@ block content
               
     button.btn.btn-primary(type='submit') Submit
 
-  if errors 
-    ul
-      for error in errors
-        li!= error.msg
+  

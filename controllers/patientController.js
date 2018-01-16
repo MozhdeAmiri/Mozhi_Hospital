@@ -24,7 +24,7 @@ exports.patient_detail = (req, res, next) => {
         .exec(callback);
     },
     patients_surgeries(callback) {
-      Surgery.find({ patient: req.params.id }, 'title summary')
+      Surgery.find({ patient: req.params.id })
         .exec(callback);
     },
   }, (err, results) => {
@@ -121,7 +121,7 @@ exports.patient_delete_post = (req, res, next) => {
       Patient.findById(req.body.patientid).exec(callback);
     },
     patients_surgeries(callback) {
-      Surgery.find({ patient: req.body.patientid }).exec(callback);
+      Surgery.find({ patient: req.body.patientid }).populate('doctor').exec(callback);
     },
   }, (err, results) => {
     if (err) { return next(err); }

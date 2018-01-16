@@ -38,6 +38,9 @@ router.get('/surgery/:id', surgery_controller.surgery_detail);
 // GET request for list of all Surgery.
 router.get('/surgeries', surgery_controller.surgery_list);
 
+// POST request for creating Surgery.
+router.post('/surgeries', surgery_controller.surgery_list_post);
+
 
 // / PATINT ROUTES ///
 

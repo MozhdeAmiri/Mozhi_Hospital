@@ -13,10 +13,18 @@ block content
     
     dl
     each surgery in patient_surgeries
-      dt 
-        a(href=surgery.url) #{surgery.title}
-      dd #{surgery.summary}
+      li
+        |Title:  
+        a(href=surgery.url) #{surgery.title} 
+        | -   Date:
+        #{surgery.date_formatted}
 
+        |  -   Status:
+        if surgery.status
+          span.text-success Active
+        else
+          span.text-danger Inactive
+       
     else
       p This patient has no scheduled surgeries.
       

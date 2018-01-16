@@ -12,8 +12,6 @@ const SurgerySchema = new Schema({
   status: { type: Boolean, default: false },
 });
 
-SurgerySchema.index({ doctor: 1, status: 1 }, { unique: true });
-
 // Virtual for this surgery URL.
 SurgerySchema
   .virtual('url')

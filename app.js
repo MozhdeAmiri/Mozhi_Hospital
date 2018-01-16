@@ -11,8 +11,8 @@ const catalog = require('./routes/catalog'); // Import routes for "catalog" area
 const compression = require('compression');
 const helmet = require('helmet');
 
-// SET DEBUG=express-locallibrary-tutorial:* & npm start
-// SET DEBUG=express-locallibrary-tutorial:* & npm run devstart
+// SET DEBUG=mozhde_hospital:* & npm start
+// SET DEBUG=mozhde_hospital:* & npm run devstart
 // nodemon
 
 
