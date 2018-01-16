@@ -1,99 +1,117 @@
-const express = require('express');
+var express = require('express');
+var router = express.Router();
 
-const router = express.Router();
+// Require controller modules.
+var book_controller = require('../controllers/bookController');
+var author_controller = require('../controllers/authorController');
+var genre_controller = require('../controllers/genreController');
+var book_instance_controller = require('../controllers/bookinstanceController');
 
-
-// Require our controllers.
-const surgery_controller = require('../controllers/surgeryController');
-const patient_controller = require('../controllers/patientController');
-const doctor_controller = require('../controllers/doctorController');
-
-
-// / SURGERY ROUTES ///
+/// BOOK ROUTES ///
 
 // GET catalog home page.
-router.get('/', surgery_controller.index);
+router.get('/', book_controller.index);
 
-// GET request for creating a Surgery. NOTE This must come before routes that display Surgery (uses id).
-router.get('/surgery/create', surgery_controller.surgery_create_get);
+// GET request for creating a Book. NOTE This must come before routes that display Book (uses id).
+router.get('/book/create', book_controller.book_create_get);
 
-// POST request for creating Surgery.
-router.post('/surgery/create', surgery_controller.surgery_create_post);
+// POST request for creating Book.
+router.post('/book/create', book_controller.book_create_post);
 
-// GET request to delete Surgery.
-router.get('/surgery/:id/delete', surgery_controller.surgery_delete_get);
+// GET request to delete Book.
+router.get('/book/:id/delete', book_controller.book_delete_get);
 
-// POST request to delete Surgery.
-router.post('/surgery/:id/delete', surgery_controller.surgery_delete_post);
+// POST request to delete Book.
+router.post('/book/:id/delete', book_controller.book_delete_post);
 
-// GET request to update Surgery.
-router.get('/surgery/:id/update', surgery_controller.surgery_update_get);
+// GET request to update Book.
+router.get('/book/:id/update', book_controller.book_update_get);
 
-// POST request to update Surgery.
-router.post('/surgery/:id/update', surgery_controller.surgery_update_post);
+// POST request to update Book.
+router.post('/book/:id/update', book_controller.book_update_post);
 
-// GET request for one Surgery.
-router.get('/surgery/:id', surgery_controller.surgery_detail);
+// GET request for one Book.
+router.get('/book/:id', book_controller.book_detail);
 
-// GET request for list of all Surgery.
-router.get('/surgeries', surgery_controller.surgery_list);
+// GET request for list of all Book items.
+router.get('/books', book_controller.book_list);
 
-// POST request for creating Surgery.
-router.post('/surgeries', surgery_controller.surgery_list_post);
+/// AUTHOR ROUTES ///
 
+// GET request for creating Author. NOTE This must come before route for id (i.e. display author).
+router.get('/author/create', author_controller.author_create_get);
 
-// / PATINT ROUTES ///
+// POST request for creating Author.
+router.post('/author/create', author_controller.author_create_post);
 
-// GET request for creating Patient. NOTE This must come before route for id (i.e. display patient).
-router.get('/patient/create', patient_controller.patient_create_get);
+// GET request to delete Author.
+router.get('/author/:id/delete', author_controller.author_delete_get);
 
-// POST request for creating Patient.
-router.post('/patient/create', patient_controller.patient_create_post);
+// POST request to delete Author.
+router.post('/author/:id/delete', author_controller.author_delete_post);
 
-// GET request to delete Patient.
-router.get('/patient/:id/delete', patient_controller.patient_delete_get);
+// GET request to update Author.
+router.get('/author/:id/update', author_controller.author_update_get);
 
-// POST request to delete Patient
-router.post('/patient/:id/delete', patient_controller.patient_delete_post);
+// POST request to update Author.
+router.post('/author/:id/update', author_controller.author_update_post);
 
-// GET request to update Patient.
-router.get('/patient/:id/update', patient_controller.patient_update_get);
+// GET request for one Author.
+router.get('/author/:id', author_controller.author_detail);
 
-// POST request to update Patient.
-router.post('/patient/:id/update', patient_controller.patient_update_post);
+// GET request for list of all Authors.
+router.get('/authors', author_controller.author_list);
 
-// GET request for one Patient.
-router.get('/patient/:id', patient_controller.patient_detail);
+/// GENRE ROUTES ///
 
-// GET request for list of all Patients.
-router.get('/patients', patient_controller.patient_list);
+// GET request for creating a Genre. NOTE This must come before route that displays Genre (uses id).
+router.get('/genre/create', genre_controller.genre_create_get);
 
+//POST request for creating Genre.
+router.post('/genre/create', genre_controller.genre_create_post);
 
-// / DOCTOR ROUTES ///
+// GET request to delete Genre.
+router.get('/genre/:id/delete', genre_controller.genre_delete_get);
 
-// GET request for creating a Doctor. NOTE This must come before route that displays Doctor (uses id).
-router.get('/doctor/create', doctor_controller.doctor_create_get);
+// POST request to delete Genre.
+router.post('/genre/:id/delete', genre_controller.genre_delete_post);
 
-// POST request for creating Doctor.
-router.post('/doctor/create', doctor_controller.doctor_create_post);
+// GET request to update Genre.
+router.get('/genre/:id/update', genre_controller.genre_update_get);
 
-// GET request to delete Doctor.
-router.get('/doctor/:id/delete', doctor_controller.doctor_delete_get);
+// POST request to update Genre.
+router.post('/genre/:id/update', genre_controller.genre_update_post);
 
-// POST request to delete Doctor.
-router.post('/doctor/:id/delete', doctor_controller.doctor_delete_post);
+// GET request for one Genre.
+router.get('/genre/:id', genre_controller.genre_detail);
 
-// GET request to update Doctor.
-router.get('/doctor/:id/update', doctor_controller.doctor_update_get);
+// GET request for list of all Genre.
+router.get('/genres', genre_controller.genre_list);
 
-// POST request to update Doctor.
-router.post('/doctor/:id/update', doctor_controller.doctor_update_post);
+/// BOOKINSTANCE ROUTES ///
 
-// GET request for one Doctor.
-router.get('/doctor/:id', doctor_controller.doctor_detail);
+// GET request for creating a BookInstance. NOTE This must come before route that displays BookInstance (uses id).
+router.get('/bookinstance/create', book_instance_controller.bookinstance_create_get);
 
-// GET request for list of all Doctor.
-router.get('/doctors', doctor_controller.doctor_list);
+// POST request for creating BookInstance. 
+router.post('/bookinstance/create', book_instance_controller.bookinstance_create_post);
 
+// GET request to delete BookInstance.
+router.get('/bookinstance/:id/delete', book_instance_controller.bookinstance_delete_get);
+
+// POST request to delete BookInstance.
+router.post('/bookinstance/:id/delete', book_instance_controller.bookinstance_delete_post);
+
+// GET request to update BookInstance.
+router.get('/bookinstance/:id/update', book_instance_controller.bookinstance_update_get);
+
+// POST request to update BookInstance.
+router.post('/bookinstance/:id/update', book_instance_controller.bookinstance_update_post);
+
+// GET request for one BookInstance.
+router.get('/bookinstance/:id', book_instance_controller.bookinstance_detail);
+
+// GET request for list of all BookInstance.
+router.get('/bookinstances', book_instance_controller.bookinstance_list);
 
 module.exports = router;
