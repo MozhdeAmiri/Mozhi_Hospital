@@ -1,15 +1,43 @@
 extends layout
 
 block content
+  //- div(style='text-align: center')
+    //- img(class='doctorlist-img1' align='middle' src='https://openclipart.org/download/216808/doctor.svg')
+    //- img(class='doctorlist-img1' align='middle' src='https://openclipart.org/download/284473/CDC-femaledoc.svg')
+    
+  img(class='doctorlist-img' align='middle' src='https://openclipart.org/download/216876/surgent.svg')//- img(src='http://www.exxcelmedical.com/wp-content/uploads/2011/12/Hospital_Doctors.jpg')
   h1= title
-
-  ul
-  each val in doctor_list
-    li 
-      a(href=val.url) #{val.name}  
-      | (#[strong Expertise:] #{val.expertise}) - 
-      | (#[strong Gender:] #{val.gender}) - 
-      | (#[strong Birthdate:] #{val.date_of_birth_formatted})
+  table
+    thead
+      tr
+        th
+          | Doctor Name
+        th
+          | Gender
+        th
+          | Birthdate 
+        th
+          | Expertise
+        th
+          | 
+    tbody
+      each val in listDoctors
+        tr             
+          td(data-title='Doctor Name') 
+            | #{val.name}
+          td(data-title='Gender') 
+            | #{val.gender}
+          td(data-title='Birthdate') 
+            | #{val.date_of_birth_formatted}
+          td(data-title='Expertise') 
+            | #{val.expertise} 
+          td
+            a(href=val.url)
+                i.material-icons(style="padding:5px; margin:5px;") visibility
+            a(href=val.url+'/delete')
+              i.material-icons(style="padding:2px; margin:2px;") delete
+            a(href=val.url+'/update')
+              i.material-icons(style="padding:2px; margin:2px;") edit
       
-  else
-    li There are no doctor in this hospital
+  -if (undefined==listDoctors || listDoctors.lenght)
+    p There are no doctor in this hospital

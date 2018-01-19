@@ -16,7 +16,7 @@ const SurgerySchema = new Schema({
 SurgerySchema
   .virtual('url')
   .get(function () {
-    return `/catalog/surgery/${this._id}`;
+    return `/surgery/${this._id}`;
   });
 
 SurgerySchema

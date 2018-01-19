@@ -12,8 +12,9 @@ block content
     div.form-group
       label(for='title') Title:
       input#title.form-control(type='text', placeholder='Name of surgery' name='title' required='true' value=(undefined===surgery ? '' : surgery.title) )
+    div.form-group
       label(for='status') Status:
-       input#status( type="checkbox" name="status" checked=(surgery && surgery.status) ) 
+      input#status.form-group( type="checkbox" name="status" checked=(surgery && surgery.status) ) 
     
     div.form-group
       label(for='patient') Patient:
@@ -24,14 +25,13 @@ block content
           else
             option(value=patient._id) #{patient.name}
     div.form-group
-      label(for='doctor') Available Doctors:
-        div(style='display: inline; padding-right:5px;')
-          select#doctor.form-control(type='select' multiple, placeholder='Select doctor(s)' name='doctor' required='true' )
-            for doctor in doctors
-              if surgery
-                option(value=doctor._id selected=(doctor.selected ? 'selected' : false) ) #{doctor.name}
-              else
-                option(value=doctor._id) #{doctor.name}
+      label(for='doctor') Available Doctors:        
+      select#doctor.form-control(type='select' multiple, placeholder='Select doctor(s)' name='doctor' required='true' )
+        for doctor in doctors
+          if surgery
+            option(value=doctor._id selected=(doctor.selected ? 'selected' : false) ) #{doctor.name}
+          else
+            option(value=doctor._id) #{doctor.name}
     div.form-group
       label(for='date') Date:
       input#date.form-control(type='date', placeholder='date' name='date' value=(undefined===surgery ? '' : surgery.date_formatted) required='true') 

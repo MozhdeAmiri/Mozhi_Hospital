@@ -13,8 +13,9 @@ block content
 
     p The hospital has the following record counts:
 
-    ul
-      li #[strong Surgeries:] !{data.surgery_count}
-      li #[strong Doctors:] !{data.doctor_count}
-      li #[strong Active Surgeries:] !{data.surgery_available_count} 
-      li #[strong Patients:] !{data.patient_count}
+  footer  
+    ul(class='count-list')
+      li(class='count-item') #[strong Surgeries:] !{data.surgery_count}
+      li(class='count-item') #[strong Doctors:] !{data.doctor_count}
+      li(class='count-item') #[strong Active Surgeries:] !{data.surgery_available_count} 
+      li(class='count-item') #[strong Patients:] !{data.patient_count}

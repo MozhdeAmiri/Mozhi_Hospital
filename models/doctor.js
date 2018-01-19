@@ -23,7 +23,7 @@ DoctorSchema
 DoctorSchema
   .virtual('url')
   .get(function () {
-    return `/catalog/doctor/${this._id}`;
+    return `/doctor/${this._id}`;
   });
 
 

@@ -3,54 +3,83 @@ extends layout
 block content
   h3 Surgery Filter  
   form(method='POST' action='')
-    div(style='width:40%; display: table; border:1px solid; padding:5px')
-      div(style='width:40%; display: inline; padding:5px; margin:5px;')
-      |Doctor(s):
-      select#doctor.form-control(type='select' multiple, placeholder='Select doctor' name='doctor')
-        for doctor in doctors        
-          - var sel = false
-          if undefined != filteredDoctor
-            - sel= filteredDoctor.includes(doctor)
-
-          option(value=doctor selected=(sel)) #{doctor.name}
-          
-      p
-      div(style='width:40%; display: inline; padding:5px; margin:5px;')
-        |Date   :
-        input#date(type='date', placeholder='date' name='date' value=(undefined===filterDate?'':filterDate))
-      div(style='width:40%; display: inline; padding:5px; margin:5px;')  
-        |Status  :
-        input#status( type="checkbox" value=(statusFilter)  name="status" checked=statusFilter )
-      p
-      div(style='float: left; display: block; padding:1px; margin:1px;')  
-        button.btn.btn-primary(type="submit" name="btn" value="search") Search
-      div(style='float: right; display: block; padding:1px; margin:1px;')  
-        button.btn.btn-primary(type="submit" name="btn" value="reset") RESET
-
+    table
+      thead
+        tr
+          th
+            |Doctor(s)
+          th
+            |Date
+          th
+            |Status
+          th
+            |
+          th
+            |
+      tbody
+        tr  
+          td(data-title='Doctor(s)')(style="width:100%;")     
+            select#doctor.form-control(type='select' multiple, placeholder='Select doctor' name='doctor')
+              for doctor in doctors        
+                - var sel = false
+                if undefined!=filteredDoctor
+                  for filter in filteredDoctor
+                    if(doctor._id == filter)
+                      -sel = true
+                option(value=doctor selected=(sel)) #{doctor.name}
+          td(data-title='Date') 
+            input#date(type='date', placeholder='date' name='date' value=(undefined===filterDate?'':filterDate))
+          td(data-title='Status') 
+            input#status( type="checkbox" name="status" checked=statusFilter )
+          td
+            button.btn.btn-primary(type="submit" name="btn" value="search") Search
+          td
+            button.btn.btn-primary(type="submit" name="btn" value="reset") RESET
+  hr
+        
   h3= title
-  div(style='width:90%; display: table; border:1px solid; padding:5px')
-    ul
-    each surgery in surgery_list
-      li
-        |Title:  
-        a(href=surgery.url) #{surgery.title} 
-        p
-        | (Patient: 
-        a(href=surgery.patient.url) #{surgery.patient.name}
-        | )
-        | (Doctor(s): 
-        each val in surgery.doctor
-          a(href=val.url) #{val.name}
-          |,
-
-        |)  
-        #{surgery.date_formatted} 
-        |  Status: 
-        if surgery.status
-          span.text-success Active
-        else
-          span.text-danger Inactive
-      hr
-
-    else
-      li There are no surgeries.
+  if undefined != surgeryList && surgeryList.length
+    table
+      thead    
+        tr
+          th
+            | Title
+          th
+            | Patient
+          th
+            | Doctor(s)
+          th
+            | Date 
+          th
+            | Status
+          th
+            | 
+      tbody
+        each surgery in surgeryList
+          tr
+            td(data-title='Surgery Title') 
+              | #{surgery.title}
+            td(data-title='Patient') 
+              a(href=surgery.patient.url) 
+                | #{surgery.patient.name}
+            td(data-title='Docor(s)')
+              each val in surgery.doctor
+                a(href=val.url)
+                  | #{val.name}
+                br 
+            td(data-title='Date') 
+              |#{surgery.date_formatted}
+            td(data-title='Status') 
+              if surgery.status
+                i.material-icons(style="padding:2px; margin:2px;") check_box
+              else
+                i.material-icons(style="padding:2px; margin:2px;") check_box_outline_blank
+            td(data-title='Surgery') 
+              a(href=surgery.url)
+                i.material-icons(style="padding:5px; margin:5px;") visibility
+              a(href=surgery.url+'/delete')
+                i.material-icons(style="padding:5px; margin:5px;") delete
+              a(href=surgery.url+'/update')
+                i.material-icons(style="padding:5px; margin:5px;") edit
+  else
+    li There are no surgeries.

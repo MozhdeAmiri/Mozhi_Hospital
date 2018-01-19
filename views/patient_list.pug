@@ -1,14 +1,41 @@
 extends layout
 
 block content
+  img(class='doctorlist-img' align='middle' src='https://openclipart.org/download/216876/surgent.svg')//- img(src='http://www.exxcelmedical.com/wp-content/uploads/2011/12/Hospital_Doctors.jpg')
   h1= title
   
-  ul
-  each patient in patient_list
-    li 
-      a(href=patient.url) #{patient.name}  
-      | (#[strong Diagnosis:] #{patient.diagnosis}) - 
-      | (#[strong Lifespan:] #{patient.lifespan})
+  table
+    thead
+      tr
+        th
+          | Patient Name
+        th
+          | Gender
+        th
+          | Birthdate 
+        th
+          | Diagnosis
+        th
+          |
+    tbody
 
-  else
-    li There are no patients.
+    each patient in listPatients
+      tr
+        td(data-title='Patient Name') 
+          | #{patient.name}  
+        td(data-title='Gender') 
+          | #{patient.gender}
+        td(data-title='Birthdate')
+          | #{patient.date_of_birth_yyyy_mm_dd}
+        td(data-title='Diagnosis')
+          | #{patient.diagnosis}
+        td
+          a(href=patient.url)
+            i.material-icons(style="padding:5px; margin:5px;") visibility
+          a(href=patient.url+'/delete')
+            i.material-icons(style="padding:2px; margin:2px;") delete
+          a(href=patient.url+'/update')
+            i.material-icons(style="padding:2px; margin:2px;") edit
+
+  -if (undefined==listPatients || listPatients.lenght)
+    p There are no patients.

@@ -2,26 +2,48 @@ extends layout
 
 block content
   h1 #{title}: #{surgery.title}
-  
-  p #[strong Patient:] 
-    a(href=surgery.patient.url) #{surgery.patient.name}
-  p #[strong Doctor:] 
-    each val in surgery.doctor
-      a(href=val.url) #{val.name}
-      |, 
- 
-  p #[strong Status:] 
-    if surgery.status
-      span.text-success Active
-    else
-      span.text-danger Inactive
-    
-    if surgery.status
-      p #[strong Summary:] #{surgery.summary}
-      p #[strong Date:] #{surgery.date_formatted}
- 
-  hr
-  p
-    a(href=surgery.url+'/delete') Delete Surgery
-  p
-    a(href=surgery.url+'/update') Update Surgery
+  table
+      thead    
+        tr
+          th
+            | Title
+          th
+            | Patient
+          th
+            | Doctor(s)
+          th
+            | Date 
+          th
+            | Summary
+          th
+            | Status
+          th
+            | 
+      tbody
+        tr
+          td(data-title='Surgery Title') 
+            | #{surgery.title}
+          td(data-title='Patient') 
+            a(href=surgery.patient.url) 
+              | #{surgery.patient.name}
+          td(data-title='Docor(s)')
+            each val in surgery.doctor
+              a(href=val.url)
+                | #{val.name}
+              br 
+          td(data-title='Date') 
+            |#{surgery.date_formatted}
+          td(data-title='Summary') 
+            |#{surgery.summary}
+          td(data-title='Status') 
+            if surgery.status
+              i.material-icons(style="padding:2px; margin:2px;") check_box
+            else
+              i.material-icons(style="padding:2px; margin:2px;") check_box_outline_blank
+          td(data-title='Surgery') 
+            a(href=surgery.url)
+              i.material-icons(style="padding:5px; margin:5px;") visibility
+            a(href=surgery.url+'/delete')
+              i.material-icons(style="padding:5px; margin:5px;") delete
+            a(href=surgery.url+'/update')
+              i.material-icons(style="padding:5px; margin:5px;") edit

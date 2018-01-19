@@ -2,31 +2,84 @@ extends layout
 
 block content
 
-  h1 ID: #{doctor._id}
-  
-  p #[strong Name:] #{doctor.name}
-  p #[strong Gender:] #{doctor.gender}
-  p #[strong Birthdate:] #{doctor.date_of_birth_formatted}
-     
-  p #[strong Expertise:] #{doctor.expertise} 
+  h2 Doctor: #{doctor.name}
 
-  if surgeries.length
-    div(style='margin-left:20px;margin-top:20px')
-      h4 Surgeries
-      each surgery in surgeries
-        hr
-        p #[strong Id:] 
-          a(href=surgery.url) #{surgery._id}
-        p #[strong Surgery Title:] #{surgery.title}
-
-        if surgery.status
-          span.text-success Active
-        else
-          span.text-danger Inactive
-                    
-
+  table
+    thead
+      tr
+        th
+          | Doctor Name
+        th
+          | Gender
+        th
+          | Birthdate 
+        th
+          | Expertise
+        th
+          | 
+    tbody
+      tr
+        td(data-title='Doctor Name') 
+          | #{doctor.name}
+        td(data-title='Gender') 
+          | #{doctor.gender}
+        td(data-title='Birthdate') 
+          | #{doctor.date_of_birth_formatted}
+        td(data-title='Expertise') 
+          | #{doctor.expertise} 
+        td
+          a(href=doctor.url)
+            i.material-icons(style="padding:5px; margin:5px;") visibility
+          a(href=doctor.url+'/delete')
+            i.material-icons(style="padding:5px; margin:5px;") delete
+          a(href=doctor.url+'/update')
+            i.material-icons(style="padding:5px; margin:5px;") edit
+        
   hr
-  p
-    a(href=doctor.url+'/delete') Delete Doctor
-  p
-    a(href=doctor.url+'/update') Update Doctor
+  h3 Schaduled Surgeries
+
+  if surgeryDoctors.length
+    table
+      thead    
+        tr
+          th
+            | Title
+          th
+            | Patient
+          th
+            | Doctor(s)
+          th
+            | Date 
+          th
+            | Status
+          th
+            | 
+      tbody
+        each surgery in surgeryDoctors
+          tr
+            td(data-title='Surgery Title') 
+              | #{surgery.title}
+            td(data-title='Patient') 
+              a(href=surgery.patient.url) 
+                | #{surgery.patient.name}
+            td(data-title='Docor(s)')
+              each val in surgery.doctor
+                | #{val.name}
+                br 
+            td(data-title='Date') 
+              |#{surgery.date_formatted}
+            td(data-title='Status') 
+              if surgery.status
+                i.material-icons(style="padding:2px; margin:2px;") check_box
+              else
+                i.material-icons(style="padding:2px; margin:2px;") check_box_outline_blank
+            td(data-title='Surgery') 
+              a(href=surgery.url)
+                i.material-icons(style="padding:5px; margin:5px;") visibility
+              a(href=surgery.url+'/delete')
+                i.material-icons(style="padding:5px; margin:5px;") delete
+              a(href=surgery.url+'/update')
+                i.material-icons(style="padding:5px; margin:5px;") edit
+  else
+    p This doctor has no scheduled surgeries.
+            

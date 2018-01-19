@@ -3,21 +3,86 @@ extends layout
 block content
 
   h1 #{title}: #{patient.name}
-  p= patient.lifespan
-  
-  if patient_surgeries.length
-  
-    p #[strong Delete the following surgeries before attempting to delete this patient.]
-  
-    div(style='margin-left:20px;margin-top:20px')
+  table
+    thead
+      tr
+        th
+          | Patient Name
+        th
+          | Gender
+        th
+          | Birthdate 
+        th
+          | Diagnosis
+        th
+          | Treatment
+        th
+          | 
+    tbody
+      tr
+        td(data-title='Patient Name') 
+          | #{patient.name}
+        td(data-title='Gender') 
+          | #{patient.gender}
+        td(data-title='Birthdate') 
+          | #{patient.date_of_birth_yyyy_mm_dd}
+        td(data-title='Diagnosis') 
+          | #{patient.diagnosis} 
+        td(data-title='Treatment') 
+          | #{patient.treatment} 
+        td
+          a(href=patient.url)
+            i.material-icons(style="padding:5px; margin:5px;") visibility
+          a(href=patient.url+'/delete')
+            i.material-icons(style="padding:5px; margin:5px;") delete
+          a(href=patient.url+'/update')
+            i.material-icons(style="padding:5px; margin:5px;") edit
 
-      h4 Surgeries
-    
-      dl
-      each surgery in patient_surgeries
-        dt 
-          a(href=surgery.url) #{surgery.title}
-        dd #{surgery.summary}
+  if patientsSurgeries.length
+  
+    p(style='color: red; margin:10px 0 0px 0;  float:center;') Delete the following surgeries before attempting to delete this patient :
+    h3 Schaduled Surgeries
+    table
+      thead    
+        tr
+          th
+            | Title
+          th
+            | Patient
+          th
+            | Doctor(s)
+          th
+            | Date 
+          th
+            | Status
+          th
+            | 
+      tbody
+        each surgery in patientsSurgeries
+          tr
+            td(data-title='Surgery Title') 
+              | #{surgery.title}
+            td(data-title='Patient') 
+              | #{surgery.patient.name}
+            td(data-title='Docor(s)')
+              each val in surgery.doctor
+                a(href=val.url) 
+                  | #{val.name}
+                br 
+            td(data-title='Date') 
+              |#{surgery.date_formatted}
+            td(data-title='Status') 
+              if surgery.status
+                i.material-icons(style="padding:2px; margin:2px;") check_box
+              else
+                i.material-icons(style="padding:2px; margin:2px;") check_box_outline_blank
+            td(data-title='Surgery') 
+              a(href=surgery.url)
+                i.material-icons(style="padding:5px; margin:5px;") visibility
+              a(href=surgery.url+'/delete')
+                i.material-icons(style="padding:5px; margin:5px;") delete
+              a(href=surgery.url+'/update')
+                i.material-icons(style="padding:5px; margin:5px;") edit
 
   else
     p Do you really want to delete this Patient?

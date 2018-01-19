@@ -7,29 +7,32 @@ html(lang='en')
     link(rel="stylesheet", href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    block sidebar
+      ul(class='sidebar-nav-horizental')
+        li 
+          a(href='/') Home
+        li 
+          a(href='/surgeries') All Surgeries
+        li 
+          a(href='/patients') All Patients
+        li 
+          a(href='/doctors') All Doctors
+        li 
+          hr
     div(class='container-fluid')
       div(class='row')
         div(class='col-sm-2')
           block sidebar
-            ul(class='sidebar-nav')
+            ul(class='sidebar-nav-vertical')
               li 
-                a(href='/catalog') Home
+                a(href='/patient/create') Create new patient
               li 
-                a(href='/catalog/surgeries') All surgeries
+                a(href='/surgery/create') Create new surgery
               li 
-                a(href='/catalog/patients') All patients
-              li 
-                a(href='/catalog/doctors') All Doctors
-              li 
-                hr
-              li 
-                a(href='/catalog/patient/create') Create new patient
-              li 
-                a(href='/catalog/surgery/create') Create new surgery
-              li 
-                a(href='/catalog/doctor/create') Create new doctor
+                a(href='/doctor/create') Create new doctor
                 
         div(class='col-sm-10')
           block content

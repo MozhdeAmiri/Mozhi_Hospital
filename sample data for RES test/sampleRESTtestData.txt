@@ -1,0 +1,19 @@
+DOCTOR
+{
+    "first_name": "Asghar",
+    "family_name": "Farhadi",
+    "extraInfo": "Asghariiiiiiiiiii",
+    "date_of_birth": "1986-02-02T00:00:00.000Z",
+    "gender": ["Male"],
+    "expertise": ["Gynecologic oncologist"]
+}
+
+PATIENT
+{
+    "first_name": "Saeed",
+    "family_name": "Rezaei",
+    "diagnosis": "Mental Patient",
+    "treatment": "Surgery is needed updated",
+    "date_of_birth": "1980-03-03T00:00:00.000Z",
+	"gender": ["Male"]
+}
