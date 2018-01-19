@@ -77,12 +77,8 @@ exports.surgery_list_post = [
       startDate = moment(filterDate).startOf('day');
       endDate = moment(startDate).add(1, 'days');
     }
-    if (req.body.status === 'on') {
-      statusFilter = true;
-    }
-    // console.log(`startDate--------${startDate}`);
-    // console.log(`filterDate--------${filterDate}`);
-    // console.log(`endDate--------${endDate}`);
+
+    if (req.body.status === 'on') statusFilter = true;
 
     if (!(req.body.doctor instanceof Array)) {
       if (typeof req.body.doctor === 'undefined') {
@@ -98,34 +94,30 @@ exports.surgery_list_post = [
             req.body.doctor.forEach((d) => {
               filteredDoctor.push(JSON.parse(d)._id.toString());
             });
-            Surgery.find().and([
+            return Surgery.find().and([
               { status: statusFilter },
               { date: { $gte: startDate, $lt: endDate } },
               { doctor: { $in: filteredDoctor } },
             ]).populate('patient').populate('doctor')
               .exec(callback);
-          } else {
-            Surgery.find().and([
-              { status: statusFilter },
-              { date: { $gte: startDate, $lt: endDate } },
-            ]).populate('patient').populate('doctor')
-              .exec(callback);
           }
-        } else {
-          Surgery.find({}).populate('patient').populate('doctor').exec(callback);
-          filterDate = undefined;
-          filteredDoctor = [];
-          statusFilter = undefined;
+          return Surgery.find().and([
+            { status: statusFilter },
+            { date: { $gte: startDate, $lt: endDate } },
+          ]).populate('patient').populate('doctor')
+            .exec(callback);
         }
+        filterDate = undefined;
+        filteredDoctor = [];
+        statusFilter = undefined;
+        return Surgery.find({}).populate('patient').populate('doctor').exec(callback);
       },
       doctors(callback) {
         Doctor.find({ })
           .exec(callback);
       },
     }, (err, results) => {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       // Successful, so render
       return res.render('surgery_list', {
         title: 'Surgery List',

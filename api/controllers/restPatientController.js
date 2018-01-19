@@ -157,7 +157,7 @@ exports.patient_update_put = [
       Patient.findByIdAndUpdate(req.params.id, patient, {}, (err, thepatient) => {
         if (err) { res.json(err); return; }
         // Successful - redirect to patient detail page.
-        res.json(thepatient.url);
+        res.json(thepatient);
       });
     }
   },
