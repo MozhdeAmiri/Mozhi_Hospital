@@ -3,6 +3,11 @@ extends layout
 block content
   h1=title
 
+  if errors 
+    ul(style="background-color: red;") 
+      for error in errors
+        li!= error.msg
+
   form(method='POST' action='')
     div.form-group
       label(for='first_name') First Name:
@@ -30,8 +35,3 @@ block content
           
         
     button.btn.btn-primary(type='submit') Submit
-
-  if errors 
-    ul
-      for error in errors
-        li!= error.msg

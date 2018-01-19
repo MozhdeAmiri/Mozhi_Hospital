@@ -2,6 +2,11 @@ extends layout
 
 block content
   h1=title
+  
+  if errors 
+    ul(style="background-color: red;")
+      for error in errors
+        li!= error.msg
 
   form(method='POST' action='')
     div.form-group
@@ -25,8 +30,3 @@ block content
       input#date_of_birth.form-control(type='date', name='date_of_birth' value=(undefined===patient ? '' : patient.date_of_birth_yyyy_mm_dd) )
    
     button.btn.btn-primary(type='submit') Submit
-
-  if errors 
-    ul
-      for error in errors
-        li!= error.msg

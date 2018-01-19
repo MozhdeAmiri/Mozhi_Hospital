@@ -4,7 +4,7 @@ block content
   h1= title
   
   if errors 
-    ul
+    ul(style="background-color: red;") 
       for error in errors
         li #{error.msg}
   

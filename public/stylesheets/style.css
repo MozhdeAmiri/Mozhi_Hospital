@@ -31,8 +31,10 @@
   width:10%;
   float: right;
 }
-.doctorlist-img1{
-  width:8%;
+.hospital-img{
+  width:100%;
+  height:400px;
+  float: center;
 }
 * {
     box-sizing: border-box;
